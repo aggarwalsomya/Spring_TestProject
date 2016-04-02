@@ -11,17 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProfileService {
 
-	// An EntityManager will be automatically injected from EntityManagerFactory
-	// setup on
-	// spring-context.xml
 	@PersistenceContext
 	private EntityManager em;
 
-	/*Since we've setup <tx:annotation-config> and transaction manager on
-	 spring-context.xml, any bean method annotated with @Transactional will cause Spring to
-	 magically call begin() and commit() at the start/end of the method. If exception occurs
-	 it will also call rollback()*/
 
+	/** This method is used to get the details of a specific user with the id as passed.
+	 * 
+	 * @param id of the user whose record needs to be searched
+	 * @return Profile of the user.
+	 */
 	@Transactional
 	public Profile getSpecificUser(String id) {
 		Profile p;
@@ -35,52 +33,44 @@ public class ProfileService {
 		return p;
 	}
 
+	/**
+	 * This method is used to add a new profile.
+	 * @param profile contains the profile which needs to be added
+	 */
 	@Transactional
 	public void add(Profile p) {
 		em.merge(p);
 	}
 	
+	/**
+	 * Use to update the record with the profile p. If the record does not exist it will create a new record.
+	 * @param profile object
+	 */
 	@Transactional
-	public void update1(Profile p) {
+	public void update(Profile p) {
 		em.merge(p);
 	}
 
-//	@Transactional
-//	public void update(Profile p, String id) {
-//		Query q = em.createQuery("insert into Profile ( SET p.firstname=:fname "
-//				+ ",p.lastname = :lname" 
-//				+ ",p.address = :address"
-//				+ ",p.organization = :organization"
-//				+ ",p.email = :email"
-//				+ ",p.about_myself = :aboutMyself"
-//				+ " where p.id=:userId");
-//		
-//		q.setParameter("userId", Integer.parseInt(id));
-//		q.setParameter("fname", p.getFname());
-//		q.setParameter("lname", p.getLname());
-//		q.setParameter("address", p.getAddress());
-//		q.setParameter("email", p.getEmail());
-//		q.setParameter("organization", p.getOrg());
-//		q.setParameter("aboutMyself", p.getAbout());
-//		
-//		q.executeUpdate();
-//	}
-
+	/**
+	 * will check if the user with the id exists?
+	 * @param id of the user
+	 * @return yes if it exists else no
+	 */
 	public boolean exists(int id) {
 		Profile pr = new Profile();
 		pr.setId(id);
 		return em.find(Profile.class, id) != null;
 	}
 
+	/**
+	 * deletes the user with the specified id
+	 * @param id of the user
+	 */
 	@Transactional
 	public void delete(int id) {
 		Profile entity = new Profile();
 		entity.setId(id);
 		System.out.println("ProfileService::Delete called for id:" +id );
 		em.remove(em.contains(entity) ? entity : em.merge(entity));
-//		em.flush();
-//		Query q = em.createQuery("DELETE from Profile p where p.id= :userId");
-//		q.setParameter("userId", Integer.parseInt(id));
-//		return q.executeUpdate();
 	}
 }

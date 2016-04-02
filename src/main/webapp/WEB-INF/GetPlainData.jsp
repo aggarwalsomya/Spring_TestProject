@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Cmpe275_Lab2_Group_20: Profile</title>
 </head>
 <body>
 <pre>
@@ -14,7 +14,7 @@ Last Name: ${lname}
 Email : ${email}
 Address: ${address}
 Organization: ${org}
-About Myself: ${amy}}
+About Myself: ${amy}
 </pre>
 </body>
 </html>

@@ -19,9 +19,10 @@ public class ProfileController {
 	@Autowired
 	private ProfileService personSvc;
 
+
 	/**
-	 * Requests to http://localhost:8080/hello will be mapped here. Everytime
-	 * invoked, we pass list of all persons to view
+	 * get data request for some id using the HTTP Get will be mapped here
+	 * @return It will return the required view
 	 */
 	@RequestMapping(value = "/{someID}", method = RequestMethod.GET)
 	public String getData(@PathVariable(value = "someID") String id,
@@ -46,7 +47,12 @@ public class ProfileController {
 		else
 			return "GetPlainData";
 	}
+
 	
+	/**
+	 * It will generate the Random Id, if the id exists, it will generate a new one.
+	 * @return the unique id
+	 */
 	private int getNextNonExistingNumber() {
 		Random rn = new Random();
 		rn.setSeed(System.currentTimeMillis());
@@ -58,22 +64,27 @@ public class ProfileController {
 		}
 	}
 
+	
 	/**
-	 * POST requests to http://localhost:8080/hello/addPerson goes here. The new
-	 * person data is passed from HTML from and bound into the Person object.
+	 * Request for add the profile using http post will be mapped here.
+	 * @param request
+	 * @return view
 	 */
 	@RequestMapping(value = "/addProfile", method = RequestMethod.POST)
 	public String addProfile(HttpServletRequest request) {
 		int id = this.getNextNonExistingNumber();
-		personSvc.add(
-			setParams(
-				request, 
-				id 		/* generate some random id */ 
-			)
-		);
+		personSvc.add(setParams(request, id /* generate some random id */
+		));
 		return "redirect:/" + id;
 	}
 
+	
+	/**
+	 * It will set the params in the profile object from the servlet request object
+	 * @param request
+	 * @param id
+	 * @return the profile object will all the parameters
+	 */
 	private Profile setParams(HttpServletRequest request, int id) {
 		Profile profile = new Profile();
 		profile.setId(id);
@@ -84,38 +95,65 @@ public class ProfileController {
 		profile.setOrg(request.getParameter("org"));
 		profile.setAbout(request.getParameter("amy"));
 		return profile;
-	}
-	
-	@RequestMapping(value = "/updateProfile1", method = RequestMethod.POST)
-	public String updateProfile1(HttpServletRequest request) {
-		System.out.println(request.getAttribute("regist"));
-		/*
-		 * if(request.getAttribute("regist") == "Update") { //do the update
-		 * stuff here } else { //invoke the delete operation from here }
-		 */
+	}	
 
-		// Updating the profile object here
-		personSvc.update1(setParams(request, Integer.parseInt(request.getParameter("id"))));
+	/**
+	 * It is used to update the profile of the user
+	 * @param request
+	 * @return the view
+	 */
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+	public String updateProfile(HttpServletRequest request) {
+		personSvc.update(setParams(request, Integer.parseInt(request.getParameter("id"))));
 		return "redirect:/" + request.getParameter("id");
 	}
+	
+	/**
+	 *  It will update the data for the user with the specific id and details in the request params
+	 * @param id
+	 * @param firstname
+	 * @param lastname
+	 * @param email
+	 * @param address
+	 * @param organization
+	 * @param about_myself
+	 * @param model
+	 * @return view
+	 */
 
-//	@RequestMapping(value = "/{someID}", method = RequestMethod.POST)
-//	public String updateProfile(HttpServletRequest request) {
-//		System.out.println(request.getAttribute("regist"));
-//		/*
-//		 * if(request.getAttribute("regist") == "Update") { //do the update
-//		 * stuff here } else { //invoke the delete operation from here }
-//		 */
-//
-//		// Updating the profile object here
-//		personSvc.update(setParams(request), request.getParameter("id"));
-//		return "redirect:/" + request.getParameter("id");
-//	}
+	@RequestMapping(value = "/{someID}", method = RequestMethod.POST)
+	public String updateData_Params(@PathVariable(value = "someID") String id,
+			@RequestParam(value = "firstname", required = false) String firstname,
+			@RequestParam(value = "lastname", required = false) String lastname,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "organization", required = false) String organization,
+			@RequestParam(value = "about_myself", required = false) String about_myself, Model model) {
+		
+		Profile p = new Profile();
+		p.setId(Integer.parseInt(id));
+		p.setFname(firstname);
+		p.setLname(lastname);
+		p.setEmail(email);
+		p.setAddress(address);
+		p.setOrg(organization);
+		p.setAbout(about_myself);
+
+		personSvc.update(p);
+		return "redirect:/" + id;
+	}
+	
+	/**
+	 * It will delete the profile of the user with a userId in the url
+	 * @param id
+	 * @param model
+	 * @return view
+	 */
 
 	@RequestMapping(value = "/{someID}", method = RequestMethod.DELETE)
 	public String deleteProfile(@PathVariable(value = "someID") String id, Model model) {
 		System.out.println("ProfileController::deleteProfile: " + id);
-		int idInt  = 0;
+		int idInt = 0;
 		try {
 			idInt = Integer.parseInt(id);
 		} catch (Exception e) {
@@ -127,19 +165,17 @@ public class ProfileController {
 			return "home";
 		} else {
 			System.out.println("row doesn't exist for " + id);
+			model.addAttribute("id",id);
 			return "error";
 		}
-//		System.out.println(rowsAffected + "rows has been deleted");
-//		//it will return error page in case no rows are affected, means the id could not be found in the database
-//		if(rowsAffected == 1) {
-//			System.out.println("redirecting to home....");
-//			return "home";
-//		} else {
-//			return "error";
-//		}
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+	
+	/**
+	 * returns the home page
+	 * @return
+	 */
 	public String home() {
 		return "home";
 	}

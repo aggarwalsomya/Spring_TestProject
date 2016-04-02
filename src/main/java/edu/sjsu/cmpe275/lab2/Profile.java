@@ -1,10 +1,13 @@
 package edu.sjsu.cmpe275.lab2;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/** This is the main profile class containing the various profile fields.
+ * All the fields are private in nature and getters and setters are written for them
+ * *
+ */
 
 @Entity
 @Table(name = "profile")

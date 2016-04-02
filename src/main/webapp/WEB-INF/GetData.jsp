@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>User Profile</title>
+<title>Cmpe275_Lab2_Group_20 : User Profile</title>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -23,41 +23,39 @@
 </head>
 <body>
 
-	<form method="POST" action="updateProfile1">
+	<form method="POST" action="updateProfile">
 		<table>
 			<tr>
 				<td><label>ID:</label></td>
-				<td><input type="text" name="id" id="id" value=${id } readonly /></td>
+				<td><input type="text" name="id" id="id" value="${id}" readonly /></td>
 			</tr>
 
 			<tr>
 				<td><label>First Name</label></td>
-				<td><input type="text" name="fname" value=${fname } required /></td>
+				<td><input type="text" name="fname" value="${fname}" required /></td>
 			</tr>
 
 			<tr>
 				<td><label>Last Name</label></td>
 
-				<td><input type="text" name="lname" value=${lname } required /></td>
+				<td><input type="text" name="lname" value="${lname}" required /></td>
 
 			</tr>
 			<tr>
 				<td><label>Email</label></td>
-				<td><input type="email" value=${email } name="email" required></td>
+				<td><input type="email" value="${email}" name="email" required></td>
 			</tr>
 			<tr>
 				<td><label>Address</label></td>
-				<td><input type="text" name="address" value=${address
-					}
-					required /></td>
+				<td><input type="text" name="address" value="${address}"	required /></td>
 			</tr>
 			<tr>
 				<td><label>Organization</label></td>
-				<td><input type="text" name="org" value=${org } required /></td>
+				<td><input type="text" name="org" value="${org}" required /></td>
 			</tr>
 			<tr>
 				<td><label>About Myself</label></td>
-				<td><input type="text" name="amy" value=${amy } required /></td>
+				<td><input type="text" name="amy" value="${amy}" required /></td>
 			</tr>
 			<tr>
 				<td><input type="submit" name="Update" class="submit"

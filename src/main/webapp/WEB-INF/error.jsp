@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>404 Error</title>
+<title>Cmpe275_Lab2_Group_20 : 404 Error</title>
 </head>
 <body>
 <h1>Error 404</h1><br><br>
