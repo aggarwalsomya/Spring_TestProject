@@ -10,10 +10,10 @@
 	$(document).ready(function() {
 		$('#Delete').click(function() {
 			$.ajax({
-				url : 'http://52.53.209.152:8080/profile/' + $('#id').val(),
+				url : 'http://54.183.252.40:8080/profile/' + $('#id').val(),
 				type : 'DELETE',
 	            success: function(msg){
-            		window.location.href = "http://52.53.209.152:8080/profile"
+            		window.location.href = "http://54.183.252.40:8080/profile"
 	            }
 			});
 		});
