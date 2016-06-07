@@ -27,7 +27,8 @@ public class ProfileController {
 	@RequestMapping(value = "/{someID}", method = RequestMethod.GET)
 	public String getData(@PathVariable(value = "someID") String id,
 			@RequestParam(value = "brief", required = false) String brief, Model model) {
-		System.out.println("the path url id is " + id);
+	System.out.println("the path url id is " + id);
+		
 		Profile p = personSvc.getSpecificUser(id);
 		model.addAttribute("id", id);
 
@@ -152,7 +153,6 @@ public class ProfileController {
 
 	@RequestMapping(value = "/{someID}", method = RequestMethod.DELETE)
 	public String deleteProfile(@PathVariable(value = "someID") String id, Model model) {
-		System.out.println("ProfileController::deleteProfile: " + id);
 		int idInt = 0;
 		try {
 			idInt = Integer.parseInt(id);
